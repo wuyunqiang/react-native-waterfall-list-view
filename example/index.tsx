@@ -44,6 +44,11 @@ const App = () => {
     index = 0;
     waterfallRef.current?.refreshList();
     changeList(getList(20));
+
+    console.log(
+      "test scrollToOffset",
+      waterfallRef.current?.flatListRef.current?.scrollToOffset
+    );
   };
 
   const onEndReached = () => {
