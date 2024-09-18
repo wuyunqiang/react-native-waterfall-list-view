@@ -19,6 +19,28 @@
 - 支持不定高 item 内部通过布局自动计算 所以 getItemLayout 设置无效
 - 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlistRef.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatListRef 对象
 
+```javascript
+ <WaterFallList
+                ref={waterfallRef}
+                ItemSeparatorComponent={() => {
+                    return <View style={{ width: '100%', height: 10 }}></View>;
+                }}
+                initialNumToRender={10}
+                windowSize={10}
+                ListHeaderComponent={() => <View></View>}
+                renderItem={({ item }) => <Item data={item}></Item>}
+                data={list}
+                contentContainerStyle={{ flexGrow: 1 }}
+                onEndReachedThreshold={0.5}
+                onEndReached={onEndReached}
+                numColumns={3} // 3列瀑布流
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => <View></View>}
+                ListFooterComponent={() => <View></View>}
+            />
+```
+
+
 ## 注意事项
 
 1.  item 最大高度与最小高度差值不宜过大 建议:  `最小高度>=最大高度的30%`
