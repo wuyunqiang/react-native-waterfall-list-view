@@ -20,7 +20,9 @@
 - 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlistRef.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatListRef 对象
 
 ```javascript
- <WaterFallList
+import WaterFallList from "react-native-waterfall-list-view"
+
+<WaterFallList
                 ref={waterfallRef}
                 ItemSeparatorComponent={() => {
                     return <View style={{ width: '100%', height: 10 }}></View>;
