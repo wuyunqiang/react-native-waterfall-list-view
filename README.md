@@ -1,4 +1,4 @@
-# react-native-waterfall-list
+# react-native-waterfall-list-view
 
 基于 flatlist 实现的 多列 不定高 瀑布流组件
 
