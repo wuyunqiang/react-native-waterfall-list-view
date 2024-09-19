@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { FlatList, type FlatListProps, View } from "react-native";
+import { FlatList, type FlatListProps, View, ViewStyle } from "react-native";
 
 export type ItemData = {
   offsetTop: number; // !! 元素距离容器顶部的距离
@@ -43,6 +43,7 @@ export interface IWaterFallListProps
   }: IRenderItemProps) => React.ReactElement | null;
   ItemSeparatorComponent?: () => JSX.Element;
   children?: React.ReactNode; // 添加children类型
+  rowStyle?: ViewStyle;
 }
 
 export interface IWaterFallList {
@@ -57,6 +58,7 @@ const WaterFallList: ForwardRefRenderFunction<
   const {
     data,
     numColumns = 2,
+    rowStyle,
     getItemLayout,
     ItemSeparatorComponent,
     ...otherProps
@@ -153,6 +155,9 @@ const WaterFallList: ForwardRefRenderFunction<
    * 收集每个item的实际高度
    */
   const onItemHeightChange = (height: number, index: number) => {
+    if (!data) {
+      return;
+    }
     if (_itemHeightsRef.current[index] === height) {
       return;
     }
@@ -181,11 +186,13 @@ const WaterFallList: ForwardRefRenderFunction<
       renderItem={({ item }) => {
         return (
           <View
-            style={{
-              position: "relative",
-              width: "100%",
-              height: item.rowH || 0,
-            }}
+            style={[
+              rowStyle ? rowStyle : { width: "100%" },
+              {
+                position: "relative",
+                height: item.rowH || 0,
+              },
+            ]}
           >
             {item.rowData.map((rowItemData: ItemData) => {
               const { offsetTop, columnIndex, index, itemH } = rowItemData;
