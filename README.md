@@ -1,16 +1,16 @@
 # react-native-waterfall-list-view
 
-基于 flatlist 实现的 多列 不定高 瀑布流组件
+基于官方 flatlist 实现的 多列 不定高 瀑布流组件 不依赖任何第三方
 
 ## 效果展示
 
 ### 两列瀑布流
+
 ![RPReplay_Final1726644535](https://github.com/user-attachments/assets/14212aa4-209a-4978-a533-65e1043bdb50)
 
-
 ### 三列瀑布流
-![RPReplay_Final1726645556](https://github.com/user-attachments/assets/88919985-a0fd-40c6-ab13-b064310e1521)
 
+![RPReplay_Final1726645556](https://github.com/user-attachments/assets/88919985-a0fd-40c6-ab13-b064310e1521)
 
 ## 使用说明
 
@@ -173,7 +173,6 @@ const App = () => {
 };
 export default memo<typeof App>(App);
 ```
-
 
 ## 注意事项
 
