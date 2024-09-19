@@ -1,5 +1,5 @@
 import React, { type RefObject } from "react";
-import { FlatList, type FlatListProps } from "react-native";
+import { FlatList, type FlatListProps, ViewStyle } from "react-native";
 export type ItemData = {
     offsetTop: number;
     itemH: number;
@@ -22,6 +22,7 @@ export interface IWaterFallListProps extends Omit<FlatListProps<RowData>, "rende
     renderItem: ({ item, index, row, }: IRenderItemProps) => React.ReactElement | null;
     ItemSeparatorComponent?: () => JSX.Element;
     children?: React.ReactNode;
+    rowStyle?: ViewStyle;
 }
 export interface IWaterFallList {
     refreshList: (offset?: number, animated?: boolean) => void;
