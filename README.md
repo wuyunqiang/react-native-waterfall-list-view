@@ -1,16 +1,16 @@
-# react-native-waterfall-list
+# react-native-waterfall-list-view
 
 基于 flatlist 实现的 多列 不定高 瀑布流组件
 
 ## 效果展示
 
 ### 两列瀑布流
+![RPReplay_Final1726644535](https://github.com/user-attachments/assets/14212aa4-209a-4978-a533-65e1043bdb50)
 
-![RPReplay_Final1726644535.gif](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/3e12aad1feba44f1906b2940d288e91e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1727258066&x-orig-sign=UaW%2B4p7xXsgd6K%2BekmMP5gzdmpg%3D)
 
 ### 三列瀑布流
+![RPReplay_Final1726645556](https://github.com/user-attachments/assets/88919985-a0fd-40c6-ab13-b064310e1521)
 
-![RPReplay_Final1726645556.gif](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/2ec5d62047704027bf1a7f2d7a17e1f9~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1727258066&x-orig-sign=PVkRxKM8JoydFTWPHfeSFeDcXGY%3D)
 
 ## 使用说明
 
@@ -18,6 +18,162 @@
 - 基于 ts + hooks 实现 有较好的类型提示
 - 支持不定高 item 内部通过布局自动计算 所以 getItemLayout 设置无效
 - 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlistRef.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatListRef 对象
+
+```javascript
+import WaterFallList from "react-native-waterfall-list-view"
+import React, { memo, useEffect, useRef, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import Item from "./item";
+
+const colors = [
+  "#5A479A",
+  "#001694",
+  "#32296B",
+  "#D1D1D1",
+  "#641024",
+  "#FE3666",
+  "#292647",
+  "#B0E38F",
+  "#6195FC",
+  "#444444",
+  "#FFD283",
+  "#52210D",
+  "#FFE8ED",
+  "#3C325F",
+  "#19191E",
+];
+
+let index = 0;
+
+const getList = (length = 15) => {
+  return Array.from({ length }, () => {
+    index++;
+    return {
+      h: Math.floor(Math.random() * 80) + 100,
+      bg: colors[Math.floor(Math.random() * colors.length)],
+      index,
+      key: index,
+      name: index,
+    };
+  });
+};
+
+const App = () => {
+  const [list, changeList] = useState([]);
+  const waterfallRef = useRef<IWaterFallList>();
+
+  const refresh = () => {
+    index = 0;
+    waterfallRef.current?.refreshList();
+    changeList(getList(20));
+
+    console.log(
+      "test scrollToOffset",
+      waterfallRef.current?.flatListRef.current?.scrollToOffset
+    );
+  };
+
+  const onEndReached = () => {
+    const nList = [...list, ...getList(20)];
+    console.log("test onEndReached", nList);
+    changeList(nList);
+  };
+
+  const onScroll = () => {
+    console.log("test onScroll");
+  };
+
+  useEffect(() => {
+    changeList(getList(20));
+  }, []);
+
+  return (
+    <View
+      style={{
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#FAB5B5",
+        paddingHorizontal: 5,
+      }}
+    >
+      <TouchableOpacity onPress={refresh}>
+        <View
+          style={{
+            width: "100%",
+            backgroundColor: "blue",
+            height: 50,
+            marginTop: 20,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "white" }}>刷新列表</Text>
+        </View>
+      </TouchableOpacity>
+      <WaterFallList
+        ref={waterfallRef}
+        ItemSeparatorComponent={() => {
+          return <View style={{ width: "100%", height: 10 }}></View>;
+        }}
+        initialNumToRender={10}
+        windowSize={10}
+        ListHeaderComponent={() => {
+          return (
+            <View
+              style={{
+                width: "100%",
+                backgroundColor: "orange",
+                height: 300,
+                marginBottom: 20,
+              }}
+            ></View>
+          );
+        }}
+        onScroll={onScroll}
+        renderItem={({ item }) => <Item data={item}></Item>}
+        data={list}
+        contentContainerStyle={{ flexGrow: 1 }}
+        onEndReachedThreshold={0.5}
+        onEndReached={onEndReached}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => {
+          return (
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "pink",
+              }}
+            >
+              <Text style={{ fontSize: 30, color: "red" }}>empty</Text>
+            </View>
+          );
+        }}
+        ListFooterComponent={() => {
+          return (
+            <View
+              style={{
+                width: "100%",
+                height: 50,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "pink",
+              }}
+            >
+              <Text style={{ fontSize: 30, color: "red" }}>正在加载中</Text>
+            </View>
+          );
+        }}
+      />
+    </View>
+  );
+};
+export default memo<typeof App>(App);
+```
+
 
 ## 注意事项
 
@@ -33,17 +189,16 @@
 3. 当高度信息收集完成 触发强制刷新 再次渲染一次列表
 4. 决策当前元素应该放在第几列 每行的高度是多少
 
-例如当前一行是这个形式：
-![截屏2024-09-18 19.21.35.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/f06660edec8547e5965604b4d473e6e7~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=e9ecf3d6&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1726744902&x-orig-sign=fYjNRRQ9f7ZSvoqe9RgbxaGv9Wk%3D)
+例如当前一行是这个形式：<br>
+<img width="631" alt="截屏2024-09-18 19 48 46" src="https://github.com/user-attachments/assets/caa091d4-5a0e-494c-be13-ed0d7714be15">
 
-第三个元素应该加在下一行的最短一列:
-![截屏2024-09-18 19.22.03.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/c371783cdf164ba0a566f0cb27ac5caa~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=e9ecf3d6&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1726744932&x-orig-sign=tKDcdtNETZJPZj0dHaEvTehuSCM%3D)
+第三个元素应该加在下一行的最短一列:<br>
+<img width="619" alt="截屏2024-09-18 19 48 41" src="https://github.com/user-attachments/assets/2e3de52b-1032-4cb6-926d-344369c6fbbc">
 
-同理第四个元素也加在最短的一列 第二列：
-![截屏2024-09-18 19.26.49.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/644bae2b464f4abcaa8aa8caed806a4c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=e9ecf3d6&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1726745217&x-orig-sign=obspdCX49jWnTUq56RIuY%2FYwqds%3D)
-
+同理第四个元素也加在最短的一列 第二列<br>
 然后计算第二行的行高：<br>
-因为 flatlist 的一行是以最长的元素高度为准 所以我们需要计算出最长的元素高度是多少 并且还要减去上一行的高度这个偏移量。
+因为 flatlist 的一行是以最长的元素高度为准 所以我们需要计算出最长的元素高度是多少 并且还要减去上一行的高度这个偏移量。<br>
 所以高度如下 <br>
-![截屏2024-09-18 19.28.32.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/1942887b05ab4fd8b5a9595b7f3bbd60~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5p-Q5p-Q5p-Q5Lq6:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMzY0OTk5MDAyNTgxNTg1MyJ9&rk3s=e9ecf3d6&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1726745318&x-orig-sign=UCLa5%2F9BncWFJR35rdK997OCalU%3D)
+<img width="636" alt="截屏2024-09-18 17 59 27" src="https://github.com/user-attachments/assets/b000cc2e-4b52-4e72-aba4-d95f9e0bf8e7">
+
 然后不断循环列表 直到结束。
