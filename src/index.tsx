@@ -1,6 +1,5 @@
 import React, {
   type ForwardRefRenderFunction,
-  type RefObject,
   forwardRef,
   memo,
   useEffect,
@@ -8,7 +7,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { FlatList, type FlatListProps, View, ViewStyle } from "react-native";
+import {
+  FlatList,
+  type FlatListProps,
+  View,
+  type ViewStyle,
+} from "react-native";
 
 export type ItemData = {
   offsetTop: number; // !! 元素距离容器顶部的距离
@@ -48,7 +52,7 @@ export interface IWaterFallListProps
 
 export interface IWaterFallList {
   refreshList: (offset?: number, animated?: boolean) => void;
-  flatListRef: RefObject<FlatList>;
+  flatList: FlatList | null;
 }
 
 const WaterFallList: ForwardRefRenderFunction<
@@ -77,7 +81,7 @@ const WaterFallList: ForwardRefRenderFunction<
     ref,
     () => {
       return {
-        flatListRef,
+        flatList: flatListRef.current,
         refreshList(offset = 0, animated = true) {
           _itemHeightsRef.current = [];
           flatListRef.current?.scrollToOffset({

@@ -17,7 +17,62 @@
 - 组件基于 flatlist 实现   几乎支持 flatlist 所有属性 个别属性不支持 例如 horizontal 目前仅支持垂直方向
 - 基于 ts + hooks 实现 有较好的类型提示
 - 支持不定高 item 内部通过布局自动计算 所以 getItemLayout 设置无效
-- 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlistRef.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatListRef 对象
+- 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlist 实例方法.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatList 属性
+
+```javascript
+const waterfallRef = useRef < IWaterFallList > null;
+
+<WaterFallList ref={waterfallRef} />;
+
+waterfallRef.current?.flatList?.scrollToOffset;
+```
+
+## 接口类型
+
+```javascript
+export type ItemData = {
+  offsetTop: number; // !! 元素距离容器顶部的距离
+  itemH: number; // 元素高度
+  itemData: any; // 元素数据
+  columnIndex: number; // 当前元素所在的列
+  index: number; // 原始列表的位置索引
+};
+
+export type RowData = {
+  rowIndex: number; // 第几行
+  rowData: ItemData[]; // 每行的列数据
+  rowH: number; // 行高度
+  rowOffsetTop: number; // !! 每行距离容器顶部的距离
+};
+
+export type IRenderItemProps = {
+  item: ItemData;
+  index: number;
+  row: RowData;
+};
+
+export interface IWaterFallListProps
+  extends Omit<
+    FlatListProps<RowData>,
+    "renderItem" | "ItemSeparatorComponent"
+  > {
+  renderItem: ({
+    item,
+    index,
+    row,
+  }: IRenderItemProps) => React.ReactElement | null;
+  ItemSeparatorComponent?: () => JSX.Element;
+  children?: React.ReactNode; // 添加children类型
+  rowStyle?: ViewStyle;
+}
+
+export interface IWaterFallList {
+  refreshList: (offset?: number, animated?: boolean) => void;
+  flatList: FlatList | null;
+}
+```
+
+## 示例
 
 ```javascript
 import WaterFallList from "react-native-waterfall-list-view"
