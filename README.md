@@ -19,15 +19,15 @@
 - 支持不定高 item 内部通过布局自动计算 所以 getItemLayout 设置无效
 - 关于 ref 的支持 默认取到的是 WaterFallList 的 ref   内部包括自定义的属性和 flatlist 实例方法.    如果想获取内部 flatlist 的 ref 对象 可以通过 WaterFallList 内部转发的的 flatList 属性
 
-```javascript
-const waterfallRef = useRef < IWaterFallList > null;
+```typescript
+const waterfallRef = useRef<IWaterFallList>(null);
 
 <WaterFallList ref={waterfallRef} />;
 
 waterfallRef.current?.flatList?.scrollToOffset;
 ```
 
-## 接口类型
+## 接口类型定义
 
 ```javascript
 export type ItemData = {
