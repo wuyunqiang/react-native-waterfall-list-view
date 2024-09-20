@@ -27,7 +27,7 @@ const waterfallRef = useRef<IWaterFallList>(null);
 waterfallRef.current?.flatList?.scrollToOffset;
 ```
 
-## 接口类型
+## 接口类型定义
 
 ```javascript
 export type ItemData = {
