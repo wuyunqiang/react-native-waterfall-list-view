@@ -37,8 +37,8 @@ const getList = (length = 15) => {
 };
 
 const App = () => {
-  const [list, changeList] = useState([]);
-  const waterfallRef = useRef<IWaterFallList>();
+  const [list, changeList] = useState<any[]>([]);
+  const waterfallRef = useRef<IWaterFallList>(null);
 
   const refresh = () => {
     index = 0;
@@ -47,7 +47,7 @@ const App = () => {
 
     console.log(
       "test scrollToOffset",
-      waterfallRef.current?.flatListRef.current?.scrollToOffset
+      waterfallRef.current?.flatList?.scrollToOffset
     );
   };
 
