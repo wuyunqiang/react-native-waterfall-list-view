@@ -1,5 +1,5 @@
-import React, { type RefObject } from "react";
-import { FlatList, type FlatListProps, ViewStyle } from "react-native";
+import React from "react";
+import { FlatList, type FlatListProps, type ViewStyle } from "react-native";
 export type ItemData = {
     offsetTop: number;
     itemH: number;
@@ -26,7 +26,7 @@ export interface IWaterFallListProps extends Omit<FlatListProps<RowData>, "rende
 }
 export interface IWaterFallList {
     refreshList: (offset?: number, animated?: boolean) => void;
-    flatListRef: RefObject<FlatList>;
+    flatList: FlatList | null;
 }
 declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<IWaterFallListProps & React.RefAttributes<IWaterFallList>>>;
 export default _default;
