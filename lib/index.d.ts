@@ -23,6 +23,7 @@ export interface IWaterFallListProps extends Omit<FlatListProps<RowData>, "rende
     ItemSeparatorComponent?: () => JSX.Element;
     children?: React.ReactNode;
     rowStyle?: ViewStyle;
+    data: any[];
 }
 export interface IWaterFallList {
     refreshList: (offset?: number, animated?: boolean) => void;

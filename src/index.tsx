@@ -48,6 +48,7 @@ export interface IWaterFallListProps
   ItemSeparatorComponent?: () => JSX.Element;
   children?: React.ReactNode; // 添加children类型
   rowStyle?: ViewStyle;
+  data: any[];
 }
 
 export interface IWaterFallList {
