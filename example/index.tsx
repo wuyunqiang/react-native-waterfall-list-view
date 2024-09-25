@@ -3,32 +3,22 @@ import { Text, TouchableOpacity, View } from "react-native";
 import WaterFallList, { type IWaterFallList } from "../src/index";
 import Item from "./item";
 
-const colors = [
-  "#5A479A",
-  "#001694",
-  "#32296B",
-  "#D1D1D1",
-  "#641024",
-  "#FE3666",
-  "#292647",
-  "#B0E38F",
-  "#6195FC",
-  "#444444",
-  "#FFD283",
-  "#52210D",
-  "#FFE8ED",
-  "#3C325F",
-  "#19191E",
-];
+const getColor = () => {
+  const list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+  let color: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    color.push(`${list[Math.floor(Math.random() * list.length)]}`);
+  }
+  return "#" + color.join("");
+};
 
 let index = 0;
-
 const getList = (length = 15) => {
   return Array.from({ length }, () => {
     index++;
     return {
       h: Math.floor(Math.random() * 80) + 100,
-      bg: colors[Math.floor(Math.random() * colors.length)],
+      bg: getColor(),
       index,
       key: index,
       name: index,
