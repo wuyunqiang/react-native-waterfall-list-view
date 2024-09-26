@@ -1,33 +1,4 @@
 import React from "react";
-import { FlatList, type FlatListProps, type ViewStyle } from "react-native";
-export type ItemData = {
-    offsetTop: number;
-    itemH: number;
-    itemData: any;
-    columnIndex: number;
-    index: number;
-};
-export type RowData = {
-    rowIndex: number;
-    rowData: ItemData[];
-    rowH: number;
-    rowOffsetTop: number;
-};
-export type IRenderItemProps = {
-    item: ItemData;
-    index: number;
-    row: RowData;
-};
-export interface IWaterFallListProps extends Omit<FlatListProps<RowData>, "renderItem" | "ItemSeparatorComponent"> {
-    renderItem: ({ item, index, row, }: IRenderItemProps) => React.ReactElement | null;
-    ItemSeparatorComponent?: () => JSX.Element;
-    children?: React.ReactNode;
-    rowStyle?: ViewStyle;
-    data: any[];
-}
-export interface IWaterFallList {
-    refreshList: (offset?: number, animated?: boolean) => void;
-    flatList: FlatList | null;
-}
+import { IWaterFallList, IWaterFallListProps } from "./type";
 declare const _default: React.MemoExoticComponent<React.ForwardRefExoticComponent<IWaterFallListProps & React.RefAttributes<IWaterFallList>>>;
 export default _default;
