@@ -71,7 +71,8 @@ export interface IWaterFallList {
   flatList: FlatList | null;
 }
 ```
-详情参考example/index示例代码
+
+## 代码示例参考 example
 
 ## 注意事项
 
@@ -79,6 +80,24 @@ export interface IWaterFallList {
 2.  item 渲染完成后 **`不建议动态改变item的高度`** 会引起布局抖动
 3.  内部封装了 refreshList 函数 在刷新列表前 建议先调用此函数(刷新调用即可 列表项增加不需要调用)
 4.  仅支持垂直瀑布流
+5.  因为 rn 官方组件在 Android 上超出父容器无法点击的问题，组件内部的触摸组件需要使用 **react-native-gesture-handler** 中的替换 rn 官方
+
+```javascript
+import {
+  TouchableNativeFeedback,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
+
+// has to be replaced with:
+import {
+  TouchableNativeFeedback,
+  TouchableHighlight,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+```
 
 ## 原理
 

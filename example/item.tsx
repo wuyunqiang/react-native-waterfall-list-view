@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Text, View } from "react-native";
-import { type ItemData } from "../src/index";
+import { ItemData } from "../src/type";
 
 const Item = ({ data }: { data: ItemData }) => {
   const { itemData, columnIndex } = data;
