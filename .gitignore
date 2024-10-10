@@ -5,3 +5,4 @@ dist
 npm-debug.log
 /test
 yarn-error.log
+node_modules
