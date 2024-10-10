@@ -118,10 +118,12 @@ const WaterFallList: ForwardRefRenderFunction<
     if (!data) {
       return;
     }
-    if (_itemHeightsRef.current[index] === height) {
+    const h = +height.toFixed(1);
+    if (_itemHeightsRef.current[index] === h) {
       return;
     }
-    _itemHeightsRef.current[`${index}`] = height;
+
+    _itemHeightsRef.current[index] = h;
     for (let i = 0; i < data.length; i++) {
       if (_itemHeightsRef.current[i] === undefined) {
         return;
