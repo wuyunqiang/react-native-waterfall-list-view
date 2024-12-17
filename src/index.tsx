@@ -14,15 +14,15 @@ const WaterFallList: ForwardRefRenderFunction<
   IWaterFallList,
   IWaterFallListProps
 > = (props: IWaterFallListProps, ref) => {
-  const p = { ...props };
-  Reflect.deleteProperty(p, "getItemLayout");
   const {
     data,
     numColumns = 2,
     rowStyle,
+    getItemLayout,
+    onItemLayoutDone,
     ItemSeparatorComponent,
     ...otherProps
-  } = p;
+  } = props;
   const _itemHeightsRef = useRef<number[]>([]);
   const flatListRef = useRef<FlatList>(null);
 
@@ -134,6 +134,7 @@ const WaterFallList: ForwardRefRenderFunction<
      * 所有item高度收集完毕后强制刷新页面
      */
     forceUpdate(!update);
+    onItemLayoutDone && onItemLayoutDone();
   };
 
   return (

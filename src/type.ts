@@ -29,6 +29,7 @@ export interface IWaterFallListProps
     children?: React.ReactNode; // 添加children类型
     rowStyle?: ViewStyle;
     data: any[];
+    onItemLayoutDone?: () => void;
 }
 
 export interface IWaterFallList {
