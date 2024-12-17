@@ -24,6 +24,7 @@ export interface IWaterFallListProps extends Omit<FlatListProps<RowData>, 'rende
     children?: React.ReactNode;
     rowStyle?: ViewStyle;
     data: any[];
+    onItemLayoutDone?: () => void;
 }
 export interface IWaterFallList {
     refreshList: (offset?: number, animated?: boolean) => void;
